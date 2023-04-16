@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "340325174887",
+    "firebase_url": "https://tasleem-taxi-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tasleem-taxi",
+    "storage_bucket": "tasleem-taxi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340325174887:android:f7cec710e6e708fd800ec2",
+        "android_client_info": {
+          "package_name": "com.tasleem.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "340325174887-o5leh967b9n9l8jrdvb7jptucoaj1ld7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8aYjXZaYZdv4oQKRESFO4ujLOGktbAlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "340325174887-o5leh967b9n9l8jrdvb7jptucoaj1ld7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "340325174887-hb4ludnamp5sc1qvq8a81mrnjq42edjl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "om.tasleem.taxi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340325174887:android:515a4cb81d396c12800ec2",
+        "android_client_info": {
+          "package_name": "com.tasleem.taxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "340325174887-o5leh967b9n9l8jrdvb7jptucoaj1ld7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8aYjXZaYZdv4oQKRESFO4ujLOGktbAlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "340325174887-o5leh967b9n9l8jrdvb7jptucoaj1ld7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "340325174887-hb4ludnamp5sc1qvq8a81mrnjq42edjl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "om.tasleem.taxi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

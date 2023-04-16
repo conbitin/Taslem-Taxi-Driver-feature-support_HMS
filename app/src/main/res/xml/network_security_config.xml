@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">bankmuscat.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/digicert_ev_rsa_ca_g2" />
+            <certificates src="@raw/digicert_global_root_g2" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>
