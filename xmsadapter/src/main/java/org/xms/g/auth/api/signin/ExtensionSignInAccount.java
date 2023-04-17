@@ -22,10 +22,10 @@ public class ExtensionSignInAccount extends org.xms.g.utils.XObject implements a
         super(param0);
     }
     
-    public android.accounts.Account getAccount() {
+    public android.accounts.Account getAccount(android.content.Context param0) {
         if (org.xms.g.utils.GlobalEnvSetting.isHms()) {
             org.xms.g.utils.XmsLog.d("XMSRouter", "((com.huawei.hms.support.hwid.result.AuthHuaweiId) this.getHInstance()).getHuaweiAccount()");
-            return ((com.huawei.hms.support.hwid.result.AuthHuaweiId) this.getHInstance()).getHuaweiAccount();
+            return ((com.huawei.hms.support.hwid.result.AuthHuaweiId) this.getHInstance()).getHuaweiAccount(param0);
         } else {
             org.xms.g.utils.XmsLog.d("XMSRouter", "((com.google.android.gms.auth.api.signin.GoogleSignInAccount) this.getGInstance()).getAccount()");
             return ((com.google.android.gms.auth.api.signin.GoogleSignInAccount) this.getGInstance()).getAccount();
