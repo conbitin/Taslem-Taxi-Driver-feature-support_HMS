@@ -46,6 +46,7 @@ public class EberDriver extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        org.xms.g.utils.GlobalEnvSetting.init(this, null);
         incomingHandler = new IncomingHandler(this);
         preferenceHelper = PreferenceHelper.getInstance(getApplicationContext());
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
