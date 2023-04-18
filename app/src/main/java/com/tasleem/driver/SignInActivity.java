@@ -47,14 +47,14 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import org.xms.g.auth.api.signin.ExtensionSignIn;
+import org.xms.g.auth.api.signin.ExtensionSignInAccount;
+import org.xms.g.auth.api.signin.ExtensionSignInClient;
+import org.xms.g.auth.api.signin.ExtensionSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
+import org.xms.g.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.Task;
+import org.xms.g.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import org.xms.f.auth.ExtensionAuth;
 
@@ -68,7 +68,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignInActivity extends BaseAppCompatActivity implements TextView.OnEditorActionListener, GoogleApiClient.OnConnectionFailedListener {
-    public GoogleSignInClient googleSignInClient;
+    public ExtensionSignInClient googleSignInClient;
     private MyFontEdittextView etSignInEmail, etSignInPassword;
     private TextView tvForgotPassword;
     private MyFontButton btnSignIn;
@@ -84,8 +84,8 @@ public class SignInActivity extends BaseAppCompatActivity implements TextView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         CurrentTrip.getInstance().clear();
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile().build();
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        ExtensionSignInOptions googleSignInOptions = new ExtensionSignInOptions.Builder(ExtensionSignInOptions.getDEFAULT_SIGN_IN()).requestEmail().requestProfile().build();
+        googleSignInClient = ExtensionSignIn.getClient(this, googleSignInOptions);
         btnSignIn = findViewById(R.id.btnSignIn);
         tilPassword = findViewById(R.id.tilPassword);
         btnSignIn.setOnClickListener(this);
@@ -204,10 +204,10 @@ public class SignInActivity extends BaseAppCompatActivity implements TextView.On
     }
 
     private void handleGoogleSignInResult(Intent data) {
-        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        Task<ExtensionSignInAccount> task = ExtensionSignIn.getSignedInAccountFromIntent(data);
         if (task.isSuccessful()) {
             try {
-                GoogleSignInAccount account = task.getResult();
+                ExtensionSignInAccount account = task.getResult();
                 socialId = account.getId();
                 socialEmail = account.getEmail();
                 signIn(Const.SOCIAL_GOOGLE);
@@ -475,7 +475,7 @@ public class SignInActivity extends BaseAppCompatActivity implements TextView.On
     private void initGoogleLogin() {
         SignInButton btnGoogleSingIn;
         btnGoogleSingIn = findViewById(R.id.btnGoogleLogin);
-        btnGoogleSingIn.setSize(SignInButton.SIZE_WIDE);
+        btnGoogleSingIn.setSize(SignInButton.getSIZE_WIDE());
         btnGoogleSingIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

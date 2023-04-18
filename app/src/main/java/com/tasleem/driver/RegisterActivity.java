@@ -88,12 +88,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.tasks.Task;
+import org.xms.g.auth.api.signin.ExtensionSignIn;
+import org.xms.g.auth.api.signin.ExtensionSignInAccount;
+import org.xms.g.auth.api.signin.ExtensionSignInClient;
+import org.xms.g.auth.api.signin.ExtensionSignInOptions;
+import org.xms.g.common.SignInButton;
+import org.xms.g.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import org.xms.f.auth.ExtensionAuth;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -145,7 +145,7 @@ public class RegisterActivity extends BaseAppCompatActivity implements TextView.
     private String msg;
     private Spinner selectGender;
     private Country country;
-    public GoogleSignInClient googleSignInClient;
+    public ExtensionSignInClient googleSignInClient;
     private City city;
     private TextInputLayout tilPassword;
     private AccessTokenTracker accessTokenTracker;
@@ -156,8 +156,8 @@ public class RegisterActivity extends BaseAppCompatActivity implements TextView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         CurrentTrip.getInstance().clear();
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile().build();
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        ExtensionSignInOptions googleSignInOptions = new ExtensionSignInOptions.Builder(ExtensionSignInOptions.getDEFAULT_SIGN_IN()).requestEmail().requestProfile().build();
+        googleSignInClient = ExtensionSignIn.getClient(this, googleSignInOptions);
         imageHelper = new ImageHelper(this);
         isEmailVerify = preferenceHelper.getIsProviderEmailVerification();
         isSMSVerify = preferenceHelper.getIsProviderSMSVerification();
@@ -303,10 +303,10 @@ public class RegisterActivity extends BaseAppCompatActivity implements TextView.
     }
 
     private void handleGoogleSignInResult(Intent data) {
-        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        Task<ExtensionSignInAccount> task = ExtensionSignIn.getSignedInAccountFromIntent(data);
         if (task.isSuccessful()) {
             try {
-                GoogleSignInAccount account = task.getResult();
+                ExtensionSignInAccount account = task.getResult();
                 loginType = Const.SOCIAL_GOOGLE;
                 socialId = account.getId();
                 socialEmail = account.getEmail();
@@ -1197,7 +1197,7 @@ public class RegisterActivity extends BaseAppCompatActivity implements TextView.
     private void initGoogleLogin() {
         SignInButton btnGoogleSingIn;
         btnGoogleSingIn = findViewById(R.id.btnGoogleLogin);
-        btnGoogleSingIn.setSize(SignInButton.SIZE_WIDE);
+        btnGoogleSingIn.setSize(SignInButton.getSIZE_WIDE());
         btnGoogleSingIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
