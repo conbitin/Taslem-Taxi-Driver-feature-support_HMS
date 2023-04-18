@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'
+apply from: '../xmsadapter/scripts/productFlavor.gradle'
 
 android {
     compileSdkVersion 31
@@ -145,4 +147,3 @@ dependencies {
     implementation 'com.instabug.library:instabug:10.13.0'
     implementation project(':xmsadapter')
 }
-apply plugin: 'com.google.gms.google-services'
