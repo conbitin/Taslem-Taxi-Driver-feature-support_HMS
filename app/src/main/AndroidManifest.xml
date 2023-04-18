@@ -88,8 +88,10 @@
 
         <service
             android:name=".FcmMessagingService"
-            android:exported="true">
+            android:exported="true"
+            android:permission="${applicationId}.permission.PROCESS_PUSH_MSG" >
             <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT"/>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>

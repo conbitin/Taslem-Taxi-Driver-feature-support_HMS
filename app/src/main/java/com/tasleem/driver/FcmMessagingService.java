@@ -27,8 +27,8 @@ import com.tasleem.driver.utils.AppLog;
 import com.tasleem.driver.utils.Const;
 import com.tasleem.driver.utils.PreferenceHelper;
 import com.tasleem.driver.utils.Utils;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
+import org.xms.f.messaging.ExtensionMessagingService;
+import org.xms.f.messaging.RemoteMessage;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -45,7 +45,7 @@ import retrofit2.Response;
  * <p>
  * This Class is handle a Notification which send by Google FCM server.
  */
-public class FcmMessagingService extends FirebaseMessagingService {
+public class FcmMessagingService extends ExtensionMessagingService {
 
     public static final String ID = "id";
     public static final String PROVIDER_DECLINE = "208";
