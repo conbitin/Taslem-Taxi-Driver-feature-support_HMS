@@ -8,8 +8,8 @@ import android.view.View;
 import com.tasleem.driver.components.CustomLanguageDialog;
 import com.tasleem.driver.components.MyFontTextView;
 import com.tasleem.driver.utils.SocketHelper;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import org.xms.g.common.ConnectionResult;
+import org.xms.g.common.ExtensionApiAvailability;
 
 public class MainActivity extends BaseAppCompatActivity {
 
@@ -34,9 +34,9 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        ExtensionApiAvailability apiAvailability = ExtensionApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
+        if (resultCode != ConnectionResult.getSUCCESS()) {
             if (apiAvailability.isUserResolvableError(resultCode)) {
                 apiAvailability.getErrorDialog(this, resultCode, 12).show();
             } else {

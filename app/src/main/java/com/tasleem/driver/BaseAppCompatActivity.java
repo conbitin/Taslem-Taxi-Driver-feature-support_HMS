@@ -53,8 +53,8 @@ import com.tasleem.driver.utils.LanguageHelper;
 import com.tasleem.driver.utils.NetworkHelper;
 import com.tasleem.driver.utils.PreferenceHelper;
 import com.tasleem.driver.utils.Utils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import org.xms.g.tasks.OnCompleteListener;
+import org.xms.g.tasks.Task;
 
 import org.xms.f.auth.AuthResult;
 import org.xms.f.auth.ExtensionAuth;

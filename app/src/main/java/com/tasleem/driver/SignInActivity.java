@@ -51,9 +51,9 @@ import org.xms.g.auth.api.signin.ExtensionSignIn;
 import org.xms.g.auth.api.signin.ExtensionSignInAccount;
 import org.xms.g.auth.api.signin.ExtensionSignInClient;
 import org.xms.g.auth.api.signin.ExtensionSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
+import org.xms.g.common.ConnectionResult;
 import org.xms.g.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
+import org.xms.g.common.api.ExtensionApiClient;
 import org.xms.g.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import org.xms.f.auth.ExtensionAuth;
@@ -67,7 +67,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignInActivity extends BaseAppCompatActivity implements TextView.OnEditorActionListener, GoogleApiClient.OnConnectionFailedListener {
+public class SignInActivity extends BaseAppCompatActivity implements TextView.OnEditorActionListener, ExtensionApiClient.OnConnectionFailedListener {
     public ExtensionSignInClient googleSignInClient;
     private MyFontEdittextView etSignInEmail, etSignInPassword;
     private TextView tvForgotPassword;

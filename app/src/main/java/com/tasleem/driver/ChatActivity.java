@@ -19,8 +19,8 @@ import com.tasleem.driver.utils.Const;
 import com.tasleem.driver.utils.Utils;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import org.xms.g.common.ConnectionResult;
+import org.xms.g.common.api.ExtensionApiClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class ChatActivity extends BaseAppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class ChatActivity extends BaseAppCompatActivity implements ExtensionApiClient.OnConnectionFailedListener {
     private ChatAdapter chatAdapter;
     private RecyclerView rcvChat;
     private DatabaseReference firebaseDatabaseReference;
