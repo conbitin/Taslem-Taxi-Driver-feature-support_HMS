@@ -117,6 +117,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xms.g.utils.GlobalEnvSetting;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -1220,7 +1221,9 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
                     destinationLatLng = latlng;
                     getDistanceMatrix(currentLatLng, destinationLatLng);
                     //TODO Changed manually - END
-                    CurrentTrip.getInstance().setAutocompleteSessionToken(AutocompleteSessionToken.newInstance());
+                    if (!GlobalEnvSetting.isHms()) {
+                        CurrentTrip.getInstance().setAutocompleteSessionToken(AutocompleteSessionToken.newInstance());
+                    }
                 }
             });
         } else {

@@ -21,6 +21,8 @@ import com.tasleem.driver.models.singleton.CurrentTrip;
 import com.tasleem.driver.utils.AppLog;
 import com.tasleem.driver.utils.PreferenceHelper;
 
+import org.xms.g.utils.GlobalEnvSetting;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +61,7 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
      */
     public PlaceAutocompleteAdapter(Context context) {
         this.context = context;
-        if (!Places.isInitialized()) {
+        if (!Places.isInitialized() && !GlobalEnvSetting.isHms()) {
             Places.initialize(context, PreferenceHelper.getInstance(context).getGoogleAutoCompleteKey());
         }
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -176,6 +178,7 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
 
     private void getFindAutocompletePredictionsRequest(CharSequence constraint) {
 
+        //TODO MUST CHANGE TO USE GOOGLE API
 //        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
 //                // Call either setLocationBias() OR setLocationRestriction().
 //                .setLocationBias(bounds)

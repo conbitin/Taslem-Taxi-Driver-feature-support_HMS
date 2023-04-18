@@ -32,6 +32,7 @@ import com.google.android.play.core.tasks.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xms.g.utils.GlobalEnvSetting;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,10 +46,12 @@ public class SplashScreenActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (preferenceHelper.getGoogleAutoCompleteKey() != null) {
-            Places.initialize(getApplicationContext(), preferenceHelper.getGoogleAutoCompleteKey());
+        if (!GlobalEnvSetting.isHms() ) {
+            if (preferenceHelper.getGoogleAutoCompleteKey() != null) {
+                Places.initialize(getApplicationContext(), preferenceHelper.getGoogleAutoCompleteKey());
+            }
+            CurrentTrip.getInstance().setAutocompleteSessionToken(AutocompleteSessionToken.newInstance());
         }
-        CurrentTrip.getInstance().setAutocompleteSessionToken(AutocompleteSessionToken.newInstance());
         appUpdateManager = AppUpdateManagerFactory.create(SplashScreenActivity.this);
         setContentView(R.layout.activity_splash_screen);
         ServerConfig.setURL(this);
