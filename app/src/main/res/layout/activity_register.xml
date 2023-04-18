@@ -64,13 +64,13 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.google.android.gms.common.SignInButton
+                <org.xms.g.common.SignInButton
                     android:id="@+id/btnGoogleLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginBottom="5dp">
 
-                </com.google.android.gms.common.SignInButton>
+                </org.xms.g.common.SignInButton>
 
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/btnFbLogin"
