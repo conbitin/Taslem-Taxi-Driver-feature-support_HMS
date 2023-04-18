@@ -95,7 +95,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
+import org.xms.f.auth.ExtensionAuth;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.json.JSONException;
@@ -375,7 +375,7 @@ public class RegisterActivity extends BaseAppCompatActivity implements TextView.
         HashMap<String, RequestBody> map = new HashMap<>();
         if (etPassword.getVisibility() == View.VISIBLE) {
             map.put(Const.Params.PASSWORD, ApiClient.makeTextRequestBody(etPassword.getText().toString()));
-            FirebaseAuth.getInstance().signOut();
+            ExtensionAuth.getInstance().signOut();
         } else {
             map.put(Const.Params.PASSWORD, ApiClient.makeTextRequestBody(""));
             map.put(Const.Params.SOCIAL_UNIQUE_ID, ApiClient.makeTextRequestBody(socialId));

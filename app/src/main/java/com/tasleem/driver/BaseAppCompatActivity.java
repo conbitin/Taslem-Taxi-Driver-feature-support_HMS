@@ -55,9 +55,10 @@ import com.tasleem.driver.utils.PreferenceHelper;
 import com.tasleem.driver.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import org.xms.f.auth.AuthResult;
+import org.xms.f.auth.ExtensionAuth;
+import org.xms.f.auth.ExtensionUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +88,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     private ConnectivityReceiverListener connectivityReceiverListener;
     private AdminApprovedListener adminApprovedListener;
     private NetworkHelper networkHelper;
-    public FirebaseAuth mAuth;
+    public ExtensionAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +114,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
         }
         registerReceiver(appReceiver, intentFilter);
         localBroadcastManager.registerReceiver(appReceiver, new IntentFilter(Const.ACTION_NEW_TRIP));
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = ExtensionAuth.getInstance();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -690,17 +691,14 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
     }
 
     private void signInAnonymously() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        ExtensionUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             if (!TextUtils.isEmpty(preferenceHelper.getFirebaseUserToken())) {
-                mAuth.signInWithCustomToken(preferenceHelper.getFirebaseUserToken()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                        } else {
-                            Utils.showToast("Authentication failed.", BaseAppCompatActivity.this);
-                        }
+                mAuth.signInWithCustomToken(preferenceHelper.getFirebaseUserToken()).addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        ExtensionUser user = mAuth.getCurrentUser();
+                    } else {
+                        Utils.showToast("Authentication failed.", BaseAppCompatActivity.this);
                     }
                 });
             }

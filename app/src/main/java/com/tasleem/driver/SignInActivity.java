@@ -56,7 +56,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
+import org.xms.f.auth.ExtensionAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -229,7 +229,7 @@ public class SignInActivity extends BaseAppCompatActivity implements TextView.On
             if (loginType.equalsIgnoreCase(Const.MANUAL)) {
                 jsonObject.put(Const.Params.PASSWORD, etSignInPassword.getText().toString());
                 jsonObject.put(Const.Params.EMAIL, etSignInEmail.getText().toString());
-                FirebaseAuth.getInstance().signOut();
+                ExtensionAuth.getInstance().signOut();
             } else {
                 jsonObject.put(Const.Params.PASSWORD, "");
                 jsonObject.put(Const.Params.SOCIAL_UNIQUE_ID, socialId);
