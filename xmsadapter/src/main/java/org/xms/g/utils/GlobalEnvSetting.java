@@ -25,10 +25,6 @@ public class GlobalEnvSetting {
                 ConnectionResult.SERVICE_MISSING,
                 ConnectionResult.SERVICE_INVALID).contains(
                 GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(ctx));
-        boolean hAvailable = !Arrays.asList(com.huawei.hms.api.ConnectionResult.SERVICE_DISABLED,
-                com.huawei.hms.api.ConnectionResult.SERVICE_MISSING,
-                com.huawei.hms.api.ConnectionResult.SERVICE_INVALID).contains(
-                com.huawei.hms.api.HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(ctx));
         isHms = !gAvailable; // || hAvailable;
     }
 
