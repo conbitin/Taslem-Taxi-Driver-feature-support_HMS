@@ -55,6 +55,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.tasleem.driver.AddVehicleDetailActivity;
 import com.tasleem.driver.ContactUsActivity;
 import com.tasleem.driver.DocumentActivity;
@@ -99,26 +100,20 @@ import com.tasleem.driver.utils.FieldValidation;
 import com.tasleem.driver.utils.GlideApp;
 import com.tasleem.driver.utils.LatLngInterpolator;
 import com.tasleem.driver.utils.Utils;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
+import org.xms.g.maps.CameraUpdateFactory;
+import org.xms.g.maps.ExtensionMap;
+import org.xms.g.maps.OnMapReadyCallback;
+import org.xms.g.maps.model.BitmapDescriptor;
+import org.xms.g.maps.model.BitmapDescriptorFactory;
+import org.xms.g.maps.model.CameraPosition;
+import org.xms.g.maps.model.LatLng;
+import org.xms.g.maps.model.Marker;
+import org.xms.g.maps.model.MarkerOptions;
+import org.xms.g.maps.model.TileOverlay;
+import org.xms.g.maps.model.TileOverlayOptions;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.maps.android.heatmaps.Gradient;
-import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,6 +133,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import dev.supasintatiyanupanwong.libraries.android.kits.places.model.Place;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FetchPlaceResponse;
+import dev.supasintatiyanupanwong.libraries.android.kits.tasks.listeners.OnSuccessListener;
+import me.tatiyanupanwong.supasin.android.libraries.huawei.maps.utils.heatmaps.Gradient;
+import me.tatiyanupanwong.supasin.android.libraries.huawei.maps.utils.heatmaps.HeatmapTileProvider;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -149,7 +149,7 @@ import retrofit2.Response;
  */
 public class MapFragment extends BaseFragments implements OnMapReadyCallback, MainDrawerActivity.LocationReceivedListener, MainDrawerActivity.NetworkListener {
 
-    private GoogleMap googleMap;
+    private ExtensionMap googleMap;
     private CameraPosition cameraPosition;
     private CustomEventMapView mapView;
     private FloatingActionButton ivTargetLocation;
@@ -313,15 +313,16 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
     private void setPlaceFilter(String countryCode) {
         if (placeAutocompleteAdapter != null) {
             placeAutocompleteAdapter.setPlaceFilter(countryCode);
-            drawerActivity.locationHelper.getLastLocation(location -> {
-                if (location != null) {
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    RectangularBounds latLngBounds = RectangularBounds.newInstance(latLng, latLng);
-                    placeAutocompleteAdapter.setBounds(latLngBounds);
-                } else {
-                    Utils.showToast(drawerActivity.getResources().getString(R.string.text_location_not_found), drawerActivity);
-                }
-            });
+            //TODO Changed manually - removed set bounds due to not support from Huawei
+//            drawerActivity.locationHelper.getLastLocation(location -> {
+//                if (location != null) {
+//                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                    RectangularBounds latLngBounds = RectangularBounds.newInstance(latLng, latLng);
+//                    placeAutocompleteAdapter.setBounds(latLngBounds);
+//                } else {
+//                    Utils.showToast(drawerActivity.getResources().getString(R.string.text_location_not_found), drawerActivity);
+//                }
+//            });
 
         }
     }
@@ -510,7 +511,7 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(ExtensionMap googleMap) {
         this.googleMap = googleMap;
         setUpMap();
         moveCameraFirstMyLocation(false);
@@ -521,7 +522,7 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
     private void setUpMap() {
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         this.googleMap.getUiSettings().setMapToolbarEnabled(false);
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        this.googleMap.setMapType(ExtensionMap.getMAP_TYPE_TERRAIN());
     }
 
     /**
@@ -564,10 +565,10 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
     private float getDistanceBetweenTwoLatLng(LatLng startLatLng, LatLng endLatLang) {
         Location startLocation = new Location("start");
         Location endlocation = new Location("end");
-        endlocation.setLatitude(endLatLang.latitude);
-        endlocation.setLongitude(endLatLang.longitude);
-        startLocation.setLatitude(startLatLng.latitude);
-        startLocation.setLongitude(startLatLng.longitude);
+        endlocation.setLatitude(endLatLang.getLatitude());
+        endlocation.setLongitude(endLatLang.getLongitude());
+        startLocation.setLatitude(startLatLng.getLatitude());
+        startLocation.setLongitude(startLatLng.getLongitude());
         return startLocation.distanceTo(endlocation);
 
     }
@@ -577,7 +578,7 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
         CameraPosition oldPos = googleMap.getCameraPosition();
 
         CameraPosition pos = CameraPosition.builder(oldPos).bearing(bearing).target(positionLatLng).zoom(17).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(pos), 3000, new GoogleMap.CancelableCallback() {
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(pos), 3000, new ExtensionMap.CancelableCallback() {
 
             @Override
             public void onFinish() {
@@ -880,7 +881,7 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
         if (marker != null) {
 
             final LatLng startPosition = marker.getPosition();
-            final LatLng endPosition = new LatLng(finalPosition.latitude, finalPosition.longitude);
+            final LatLng endPosition = new LatLng(finalPosition.getLatitude(), finalPosition.getLongitude());
 
             final float startRotation = marker.getRotation();
             final LatLngInterpolator interpolator = new LatLngInterpolator.LinearFixed();
@@ -897,7 +898,7 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
                         marker.setPosition(newPosition);
                         marker.setAnchor(0.5f, 0.5f);
                         if (isCameraIdeal && getDistanceBetweenTwoLatLng(startPosition, finalPosition) > Const.DISPLACEMENT && moveCamera) {
-                            updateCamera(getBearing(startPosition, new LatLng(finalPosition.latitude, finalPosition.longitude)), newPosition);
+                            updateCamera(getBearing(startPosition, new LatLng(finalPosition.getLatitude(), finalPosition.getLongitude())), newPosition);
                         }
                     } catch (Exception ex) {
                         //I don't care atm..
@@ -964,7 +965,7 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
                             }
                             if (heatMapLocationList.size() > 0) {
                                 if (isHeatMapLoaded) {
-                                    heatmapTileProvider.setData(heatMapLocationList);
+                                    heatmapTileProvider.setData(fromListLatLngToHuaweiLatLng(heatMapLocationList));
                                     tileOverlay.clearTileCache();
                                 } else {
                                     addHeatMap();
@@ -988,6 +989,17 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
         }
     }
 
+    //TODO changed manually - HMS converted code LatLng class is difference with
+    // place-core module LatLng so need to convert to correct data type here
+    private List<com.huawei.hms.maps.model.LatLng> fromListLatLngToHuaweiLatLng(List<LatLng> lstLatLng) {
+        List<com.huawei.hms.maps.model.LatLng> result = new ArrayList<>();
+        for (int i = 0; i < lstLatLng.size(); i++) {
+            result.add(new com.huawei.hms.maps.model.LatLng(lstLatLng.get(i).getLatitude(), lstLatLng.get(i).getLongitude()));
+        }
+
+        return result;
+    }
+
     private void addHeatMap() {
         removeHeatMap();
         int[] colors = {Color.rgb(102, 225, 0), // green
@@ -995,10 +1007,13 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
         };
 
         float[] startPoints = {0.2f, 1f};
+
+        //TODO changed manually - START
         Gradient gradient = new Gradient(colors, startPoints);
 
-        heatmapTileProvider = new HeatmapTileProvider.Builder().data(heatMapLocationList).gradient(gradient).build();
+        heatmapTileProvider = new HeatmapTileProvider.Builder().data(fromListLatLngToHuaweiLatLng(heatMapLocationList)).gradient(gradient).build();
         tileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(heatmapTileProvider));
+        //TODO changed manually - END
         isHeatMapLoaded = true;
     }
 
@@ -1199,11 +1214,12 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
             placeAutocompleteAdapter.getFetchPlaceRequest(placeId, new OnSuccessListener<FetchPlaceResponse>() {
                 @Override
                 public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
+                    //TODO Changed manually - START
                     Place place = fetchPlaceResponse.getPlace();
-                    destinationLatLng = place.getLatLng();
-                    if (destinationLatLng != null) {
-                        getDistanceMatrix(currentLatLng, destinationLatLng);
-                    }
+                    LatLng latlng =  new LatLng(place.getLatitude(), place.getLongitude());
+                    destinationLatLng = latlng;
+                    getDistanceMatrix(currentLatLng, destinationLatLng);
+                    //TODO Changed manually - END
                     CurrentTrip.getInstance().setAutocompleteSessionToken(AutocompleteSessionToken.newInstance());
                 }
             });
@@ -1267,8 +1283,8 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
             JSONObject jsonObject = new JSONObject();
             try {
                 if (!TextUtils.isEmpty(actvCreateDesAddress.getText().toString()) && destinationLatLng != null) {
-                    jsonObject.put(Const.Params.DEST_LATITUDE, destinationLatLng.latitude);
-                    jsonObject.put(Const.Params.DEST_LONGITUDE, destinationLatLng.longitude);
+                    jsonObject.put(Const.Params.DEST_LATITUDE, destinationLatLng.getLatitude());
+                    jsonObject.put(Const.Params.DEST_LONGITUDE, destinationLatLng.getLongitude());
                     jsonObject.put(Const.Params.DESTINATION_ADDRESS, destinationAddress);
                 } else {
                     jsonObject.put(Const.Params.DESTINATION_ADDRESS, "");
@@ -1277,8 +1293,8 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
                 }
 
                 if (!TextUtils.isEmpty(pickupAddress)) {
-                    jsonObject.put(Const.Params.PICK_UP_LATITUDE, currentLatLng.latitude);
-                    jsonObject.put(Const.Params.PICK_UP_LONGITUDE, currentLatLng.longitude);
+                    jsonObject.put(Const.Params.PICK_UP_LATITUDE, currentLatLng.getLatitude());
+                    jsonObject.put(Const.Params.PICK_UP_LONGITUDE, currentLatLng.getLongitude());
                     jsonObject.put(Const.Params.SOURCE_ADDRESS, pickupAddress);
                 } else {
                     Utils.showToast(drawerActivity.getResources().getString(R.string.msg_plz_select_valid_source_address), drawerActivity);
@@ -1426,8 +1442,8 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
      */
     private void getDistanceMatrix(LatLng srcLatLng, LatLng destLatLng) {
         Utils.showCustomProgressDialog(drawerActivity, "", false, null);
-        String origins = srcLatLng.latitude + "," + srcLatLng.longitude;
-        String destination = destLatLng.latitude + "," + destLatLng.longitude;
+        String origins = srcLatLng.getLatitude() + "," + srcLatLng.getLongitude();
+        String destination = destLatLng.getLatitude() + "," + destLatLng.getLongitude();
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put(Const.google.ORIGINS, origins);
         hashMap.put(Const.google.DESTINATIONS, destination);
@@ -1485,10 +1501,10 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
             } else {
                 jsonObject.put(Const.Params.IS_SURGE_HOURS, Const.FALSE);
             }
-            jsonObject.put(Const.Params.PICKUP_LAT, currentLatLng.latitude);
-            jsonObject.put(Const.Params.PICKUP_LON, currentLatLng.longitude);
-            jsonObject.put(Const.Params.DEST_LAT, destinationLatLng.latitude);
-            jsonObject.put(Const.Params.DEST_LON, destinationLatLng.longitude);
+            jsonObject.put(Const.Params.PICKUP_LAT, currentLatLng.getLatitude());
+            jsonObject.put(Const.Params.PICKUP_LON, currentLatLng.getLongitude());
+            jsonObject.put(Const.Params.DEST_LAT, destinationLatLng.getLatitude());
+            jsonObject.put(Const.Params.DEST_LON, destinationLatLng.getLongitude());
 
             Call<ETAResponse> call = ApiClient.getClient().create(ApiInterface.class).getETAForeTrip(ApiClient.makeJSONRequestBody(jsonObject));
             call.enqueue(new Callback<ETAResponse>() {
@@ -1521,16 +1537,16 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
 
 
     private float getBearing(LatLng begin, LatLng end) {
-        double lat = Math.abs(begin.latitude - end.latitude);
-        double lng = Math.abs(begin.longitude - end.longitude);
+        double lat = Math.abs(begin.getLatitude() - end.getLatitude());
+        double lng = Math.abs(begin.getLongitude() - end.getLongitude());
 
-        if (begin.latitude < end.latitude && begin.longitude < end.longitude)
+        if (begin.getLatitude() < end.getLatitude() && begin.getLongitude() < end.getLongitude())
             return (float) (Math.toDegrees(Math.atan(lng / lat)));
-        else if (begin.latitude >= end.latitude && begin.longitude < end.longitude)
+        else if (begin.getLatitude() >= end.getLatitude() && begin.getLongitude() < end.getLongitude())
             return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 90);
-        else if (begin.latitude >= end.latitude && begin.longitude >= end.longitude)
+        else if (begin.getLatitude() >= end.getLatitude() && begin.getLongitude() >= end.getLongitude())
             return (float) (Math.toDegrees(Math.atan(lng / lat)) + 180);
-        else if (begin.latitude < end.latitude && begin.longitude >= end.longitude)
+        else if (begin.getLatitude() < end.getLatitude() && begin.getLongitude() >= end.getLongitude())
             return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270);
         return -1;
     }

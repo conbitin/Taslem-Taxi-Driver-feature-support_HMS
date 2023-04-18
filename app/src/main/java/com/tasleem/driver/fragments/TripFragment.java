@@ -87,26 +87,25 @@ import com.tasleem.driver.utils.NetworkHelper;
 import com.tasleem.driver.utils.PreferenceHelper;
 import com.tasleem.driver.utils.SocketHelper;
 import com.tasleem.driver.utils.Utils;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
+import org.xms.g.maps.CameraUpdate;
+import org.xms.g.maps.CameraUpdateFactory;
+import org.xms.g.maps.ExtensionMap;
+import org.xms.g.maps.OnMapReadyCallback;
+import org.xms.g.maps.model.BitmapDescriptor;
+import org.xms.g.maps.model.BitmapDescriptorFactory;
+import org.xms.g.maps.model.CameraPosition;
+import org.xms.g.maps.model.LatLng;
+import org.xms.g.maps.model.LatLngBounds;
+import org.xms.g.maps.model.Marker;
+import org.xms.g.maps.model.MarkerOptions;
+import org.xms.g.maps.model.Polyline;
+import org.xms.g.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.maps.android.PolyUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -127,6 +126,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.socket.emitter.Emitter;
+import me.tatiyanupanwong.supasin.android.libraries.huawei.maps.utils.PolyUtil;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -139,7 +139,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
     private static int playLoopSound, playSoundBeforePickup;
     private static CountDownTimer countDownTimer;
     private static Timer tripTimer;
-    private GoogleMap googleMap;
+    private ExtensionMap googleMap;
     private CustomEventMapView tripMapView;
     private FloatingActionButton ivTipTargetLocation;
     private ImageView ivUserImage, ivCancelTrip, btnCallCustomer;
@@ -477,7 +477,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(ExtensionMap googleMap) {
         this.googleMap = googleMap;
         setUpMap();
         drawerActivity.setLocationListener(TripFragment.this);
@@ -486,7 +486,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
     private void setUpMap() {
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         this.googleMap.getUiSettings().setMapToolbarEnabled(false);
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        this.googleMap.setMapType(ExtensionMap.getMAP_TYPE_TERRAIN());
         this.googleMap.setPadding(0, drawerActivity.getResources().getDimensionPixelOffset(R.dimen.dimen_horizontal_margin), 0, drawerActivity.getResources().getDimensionPixelOffset(R.dimen.map_padding_bottom));
         CustomInfoWindowAdapter adapter = new CustomInfoWindowAdapter(requireActivity());
         this.googleMap.setInfoWindowAdapter(adapter);
@@ -993,8 +993,8 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
      */
     private void getDistanceMatrix(LatLng srcLatLng, final LatLng destLatLng, final boolean isSetProviderToUserEst) {
         if (srcLatLng != null && destLatLng != null && drawerActivity.preferenceHelper.getIsShowEstimation()) {
-            String origins = srcLatLng.latitude + "," + srcLatLng.longitude;
-            String destination = destLatLng.latitude + "," + destLatLng.longitude;
+            String origins = srcLatLng.getLatitude() + "," + srcLatLng.getLongitude();
+            String destination = destLatLng.getLatitude() + "," + destLatLng.getLongitude();
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put(Const.google.ORIGINS, origins);
             hashMap.put(Const.google.DESTINATIONS, destination);
@@ -1050,8 +1050,8 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
 
     private void getDistanceMatrixUsingOSRM(LatLng srcLatLng, final LatLng destLatLng, final boolean isSetProviderToUserEst) {
         if (srcLatLng != null && destLatLng != null && drawerActivity.preferenceHelper.getIsShowEstimation()) {
-            String origins = srcLatLng.longitude + "," + srcLatLng.latitude;
-            String destination = destLatLng.longitude + "," + destLatLng.latitude;
+            String origins = srcLatLng.getLongitude() + "," + srcLatLng.getLatitude();
+            String destination = destLatLng.getLongitude() + "," + destLatLng.getLatitude();
             ApiInterface apiInterface = new ApiClient().changeApiBaseUrl(Const.OSRM_API_URL).create(ApiInterface.class);
             Call<ResponseBody> call = apiInterface.getOSRMDistanceMatrix(origins + ";" + destination);
             call.enqueue(new Callback<ResponseBody>() {
@@ -1448,8 +1448,8 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
      */
     private void goToGoogleMapApp(LatLng destination) {
         if (destination != null) {
-            String latitude = String.valueOf(destination.latitude);
-            String longitude = String.valueOf(destination.longitude);
+            String latitude = String.valueOf(destination.getLatitude());
+            String longitude = String.valueOf(destination.getLongitude());
             String url = "waze://?ll=" + latitude + ", " + longitude + "&navigate=yes";
             Intent intentWaze = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             intentWaze.setPackage("com.waze");
@@ -1623,7 +1623,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
         if (marker != null) {
 
             final LatLng startPosition = marker.getPosition();
-            final LatLng endPosition = new LatLng(finalPosition.latitude, finalPosition.longitude);
+            final LatLng endPosition = new LatLng(finalPosition.getLatitude(), finalPosition.getLongitude());
             ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
             valueAnimator.setDuration(3000); // duration 3 second
             valueAnimator.setInterpolator(new LinearInterpolator());
@@ -1636,7 +1636,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
                         marker.setPosition(newPosition);
                         marker.setAnchor(0.5f, 0.5f);
                         if (getDistanceBetweenTwoLatLng(startPosition, finalPosition) > Const.DISPLACEMENT) {
-                            updateCamera(getBearing(startPosition, new LatLng(finalPosition.latitude, finalPosition.longitude)), newPosition);
+                            updateCamera(getBearing(startPosition, new LatLng(finalPosition.getLatitude(), finalPosition.getLongitude())), newPosition);
                         }
 
                     } catch (Exception ex) {
@@ -1661,7 +1661,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
             CameraPosition oldPos = googleMap.getCameraPosition();
 
             CameraPosition pos = CameraPosition.builder(oldPos).target(positionLatLng).zoom(17f).bearing(bearing).build();
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(pos), 3000, new GoogleMap.CancelableCallback() {
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(pos), 3000, new ExtensionMap.CancelableCallback() {
 
                 @Override
                 public void onFinish() {
@@ -1979,7 +1979,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
     private void checkDestination(final LatLng destLatLng) {
         if (destLatLng != null) {
             if (trip != null && (trip.isFixedFare() || isCarRentalType())) {
-                completeTrip(destLatLng.latitude, destLatLng.longitude, destinationAddressCompleteTrip, tollPrice);
+                completeTrip(destLatLng.getLatitude(), destLatLng.getLongitude(), destinationAddressCompleteTrip, tollPrice);
             } else {
                 Utils.showCustomProgressDialog(drawerActivity, "Check Destination", false, null);
 
@@ -1988,8 +1988,8 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
                     jsonObject.put(Const.Params.PROVIDER_ID, drawerActivity.preferenceHelper.getProviderId());
                     jsonObject.put(Const.Params.TRIP_ID, drawerActivity.preferenceHelper.getTripId());
                     jsonObject.put(Const.Params.TOKEN, drawerActivity.preferenceHelper.getSessionToken());
-                    jsonObject.put(Const.Params.LATITUDE, destLatLng.latitude);
-                    jsonObject.put(Const.Params.LONGITUDE, destLatLng.longitude);
+                    jsonObject.put(Const.Params.LATITUDE, destLatLng.getLatitude());
+                    jsonObject.put(Const.Params.LONGITUDE, destLatLng.getLongitude());
 
                     Call<IsSuccessResponse> call = ApiClient.getClient().create(ApiInterface.class).checkDestination(ApiClient.makeJSONRequestBody(jsonObject));
                     call.enqueue(new Callback<IsSuccessResponse>() {
@@ -1997,7 +1997,7 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
                         public void onResponse(Call<IsSuccessResponse> call, Response<IsSuccessResponse> response) {
                             if (ParseContent.getInstance().isSuccessful(response)) {
                                 if (response.body().isSuccess()) {
-                                    completeTrip(destLatLng.latitude, destLatLng.longitude, destinationAddressCompleteTrip, tollPrice);
+                                    completeTrip(destLatLng.getLatitude(), destLatLng.getLongitude(), destinationAddressCompleteTrip, tollPrice);
                                 } else {
                                     Utils.showErrorToast(response.body().getErrorCode(), drawerActivity);
                                 }
@@ -2062,16 +2062,16 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
     }
 
     private float getBearing(LatLng begin, LatLng end) {
-        double lat = Math.abs(begin.latitude - end.latitude);
-        double lng = Math.abs(begin.longitude - end.longitude);
+        double lat = Math.abs(begin.getLatitude() - end.getLatitude());
+        double lng = Math.abs(begin.getLongitude() - end.getLongitude());
 
-        if (begin.latitude < end.latitude && begin.longitude < end.longitude)
+        if (begin.getLatitude() < end.getLatitude() && begin.getLongitude() < end.getLongitude())
             return (float) (Math.toDegrees(Math.atan(lng / lat)));
-        else if (begin.latitude >= end.latitude && begin.longitude < end.longitude)
+        else if (begin.getLatitude() >= end.getLatitude() && begin.getLongitude() < end.getLongitude())
             return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 90);
-        else if (begin.latitude >= end.latitude && begin.longitude >= end.longitude)
+        else if (begin.getLatitude() >= end.getLatitude() && begin.getLongitude() >= end.getLongitude())
             return (float) (Math.toDegrees(Math.atan(lng / lat)) + 180);
-        else if (begin.latitude < end.latitude && begin.longitude >= end.longitude)
+        else if (begin.getLatitude() < end.getLatitude() && begin.getLongitude() >= end.getLongitude())
             return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270);
         return -1;
     }
@@ -2079,10 +2079,10 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
     private float getDistanceBetweenTwoLatLng(LatLng startLatLng, LatLng endLatLang) {
         Location startLocation = new Location("start");
         Location endlocation = new Location("end");
-        endlocation.setLatitude(endLatLang.latitude);
-        endlocation.setLongitude(endLatLang.longitude);
-        startLocation.setLatitude(startLatLng.latitude);
-        startLocation.setLongitude(startLatLng.longitude);
+        endlocation.setLatitude(endLatLang.getLatitude());
+        endlocation.setLongitude(endLatLang.getLongitude());
+        startLocation.setLatitude(startLatLng.getLatitude());
+        startLocation.setLongitude(startLatLng.getLongitude());
         return startLocation.distanceTo(endlocation);
 
     }
@@ -2427,15 +2427,15 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
                 for (RoutesItem routesItem : pathResponse.getRoutes()) {
                     for (LegsItem legsItem : routesItem.getLegs()) {
                         for (StepsItem stepsItem : legsItem.getSteps()) {
-                            polylineOptions.addAll(PolyUtil.decode(stepsItem.getPolyline().getPoints()));
+                            polylineOptions.addAll(fromListLatLngToHuaweiLatLng(PolyUtil.decode(stepsItem.getPolyline().getPoints())));
                         }
                     }
                 }
 
                 if (destLatLng != null) {
                     Location destLocation = new Location("destLocation");
-                    destLocation.setLatitude(destLatLng.latitude);
-                    destLocation.setLongitude(destLatLng.longitude);
+                    destLocation.setLatitude(destLatLng.getLatitude());
+                    destLocation.setLongitude(destLatLng.getLongitude());
                     try {
                         EndLocation endLocationPath = pathResponse.getRoutes().get(0).getLegs().get(0).getEndLocation();
                         Location endLocation = new Location("endLocation");
@@ -2463,12 +2463,23 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
         }
     }
 
+    //TODO changed manually - HMS converted code LatLng class is difference with
+    // library module LatLng so need to convert to correct data type here
+    private List<LatLng> fromListLatLngToHuaweiLatLng(List<com.huawei.hms.maps.model.LatLng> lstLatLng) {
+        List<LatLng> result = new ArrayList<>();
+        for (int i = 0; i < lstLatLng.size(); i++) {
+            result.add(new LatLng(lstLatLng.get(i).latitude, lstLatLng.get(i).longitude));
+        }
+
+        return result;
+    }
+
     public void getPathDrawOnMap(LatLng pickUpLatLng, LatLng destinationLatLng, boolean isWantToDraw) {
 
         if (pickUpLatLng != null & destinationLatLng != null & isWantToDraw) {
             isNeedCalledGooglePath = false;
-            String origins = pickUpLatLng.latitude + "," + pickUpLatLng.longitude;
-            String destination = destinationLatLng.latitude + "," + destinationLatLng.longitude;
+            String origins = pickUpLatLng.getLatitude() + "," + pickUpLatLng.getLongitude();
+            String destination = destinationLatLng.getLatitude() + "," + destinationLatLng.getLongitude();
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put(Const.google.ORIGIN, origins);
             hashMap.put(Const.google.DESTINATION, destination);

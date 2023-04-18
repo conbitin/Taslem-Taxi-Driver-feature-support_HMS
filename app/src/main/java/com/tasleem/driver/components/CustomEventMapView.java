@@ -7,23 +7,23 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import org.xms.g.maps.CameraUpdateFactory;
+import org.xms.g.maps.ExtensionMap;
+import org.xms.g.maps.ExtensionMapOptions;
+import org.xms.g.maps.MapView;
+import org.xms.g.maps.OnMapReadyCallback;
 
 public class CustomEventMapView extends MapView {
 
     private final Handler handler = new Handler();
     private int fingers = 0;
-    private GoogleMap googleMap;
+    private ExtensionMap googleMap;
     private long lastZoomTime = 0;
     private float lastSpan = -1;
     private ScaleGestureDetector gestureDetector;
     private GestureDetector simpleOnGestureDetector;
 
-    public CustomEventMapView(Context context, GoogleMapOptions options) {
+    public CustomEventMapView(Context context, ExtensionMapOptions options) {
         super(context, options);
     }
 
@@ -39,7 +39,7 @@ public class CustomEventMapView extends MapView {
     public void getMapAsync(final OnMapReadyCallback callback) {
         super.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onMapReady(final GoogleMap googleMap) {
+            public void onMapReady(final ExtensionMap googleMap) {
                 gestureDetector = new ScaleGestureDetector(getContext(), new ScaleGestureDetector.OnScaleGestureListener() {
                     @Override
                     public boolean onScale(ScaleGestureDetector detector) {

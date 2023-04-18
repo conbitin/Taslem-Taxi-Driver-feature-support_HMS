@@ -49,17 +49,17 @@ import com.tasleem.driver.utils.AppLog;
 import com.tasleem.driver.utils.Const;
 import com.tasleem.driver.utils.GlideApp;
 import com.tasleem.driver.utils.Utils;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
+import org.xms.g.maps.CameraUpdate;
+import org.xms.g.maps.CameraUpdateFactory;
+import org.xms.g.maps.ExtensionMap;
+import org.xms.g.maps.OnMapReadyCallback;
+import org.xms.g.maps.model.BitmapDescriptor;
+import org.xms.g.maps.model.BitmapDescriptorFactory;
+import org.xms.g.maps.model.LatLng;
+import org.xms.g.maps.model.LatLngBounds;
+import org.xms.g.maps.model.Marker;
+import org.xms.g.maps.model.MarkerOptions;
+import org.xms.g.maps.model.PolylineOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,7 +86,7 @@ public class TripHistoryDetailActivity extends BaseAppCompatActivity implements 
     private String unit;
     private LinearLayout llHistoryRate, llDetails, llFromAndTo, llTimeAndDistance;
     private CustomEventMapView mapView;
-    private GoogleMap googleMap;
+    private ExtensionMap googleMap;
     private ArrayList<LatLng> markerList;
     private Marker pickUpMarker, destinationMarker;
     private PolylineOptions currentPathPolylineOptions;
@@ -163,8 +163,8 @@ public class TripHistoryDetailActivity extends BaseAppCompatActivity implements 
 
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         this.googleMap.getUiSettings().setMapToolbarEnabled(false);
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        this.googleMap.setMapType(ExtensionMap.getMAP_TYPE_TERRAIN());
+        this.googleMap.setOnMarkerClickListener(new ExtensionMap.OnMarkerClickListener() {
             final boolean doNotMoveCameraToCenterMarker = true;
 
             public boolean onMarkerClick(Marker marker) {
@@ -172,7 +172,7 @@ public class TripHistoryDetailActivity extends BaseAppCompatActivity implements 
             }
         });
 
-        this.googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+        this.googleMap.setOnCameraIdleListener(new ExtensionMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
 
@@ -214,7 +214,7 @@ public class TripHistoryDetailActivity extends BaseAppCompatActivity implements 
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(ExtensionMap googleMap) {
         this.googleMap = googleMap;
         setUpMap();
     }

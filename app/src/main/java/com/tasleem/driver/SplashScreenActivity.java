@@ -11,6 +11,11 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.tasleem.driver.components.CustomDialogBigLabel;
 import com.tasleem.driver.models.datamodels.AdminSettings;
 import com.tasleem.driver.models.responsemodels.SettingsDetailsResponse;
@@ -21,11 +26,6 @@ import com.tasleem.driver.utils.AppLog;
 import com.tasleem.driver.utils.Const;
 import com.tasleem.driver.utils.NetworkHelper;
 import com.tasleem.driver.utils.ServerConfig;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;

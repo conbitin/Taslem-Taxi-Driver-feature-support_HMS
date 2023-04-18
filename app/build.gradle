@@ -16,6 +16,7 @@ android {
         resValue "string", "FACEBOOK_APP_ID", "1234"
         resValue "string", "FB_LOGIN_PROTOCOL_SCHEME", "fb1234"
         resValue "string", "GOOGLE_ANDROID_API_KEY", "AIzaSyDO819Q2wWjpt8QTSETp263uGjAQIY2MqQ"
+        resValue "string", "HUAWEI_ANDROID_API_KEY", "NEED_TO_REPLACE_HUWEI_API_KEY"
         firebaseCrashlytics {
             mappingFileUploadEnabled false
         }
@@ -54,6 +55,17 @@ android {
         staging {
             flavorDimensions "default"
             buildConfigField "String", "BASE_URL", '"https://staging.tasleemtaxi.com/"'
+        }
+
+        google {
+            flavorDimensions "vendor"
+            buildConfigField "String", "BASE_URL", '"https://staging.tasleemtaxi.com/"'
+        }
+
+        huawei {
+            flavorDimensions "vendor"
+            buildConfigField "String", "BASE_URL", '"https://staging.tasleemtaxi.com/"'
+            applicationIdSuffix '.huawei'
         }
 
         developer {
@@ -97,6 +109,16 @@ android {
     }
 }
 
+configurations {
+    google
+    huawei
+
+    googleImplementation.extendsFrom(google)
+    googleCompileOnly.extendsFrom(huawei)
+
+    huaweiImplementation.extendsFrom(huawei)
+    huaweiCompileOnly.extendsFrom(google)
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -105,6 +127,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-base:17.1.0'
+    implementation 'com.google.android.gms:play-services-basement:17.1.0'
+    implementation 'com.huawei.hms:maps:5.3.0.300'
+    implementation 'com.huawei.hms:location:6.0.0.302'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.google.android.libraries.places:places:2.5.0'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
@@ -113,6 +139,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.facebook.android:facebook-android-sdk:13.1.0'
     implementation 'com.stripe:stripe-android:19.3.0'
+    implementation project(path: ':library')
     testImplementation 'junit:junit:4.13.2'
 
     implementation platform('com.google.firebase:firebase-bom:29.2.0')
@@ -146,4 +173,10 @@ dependencies {
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.45'
     implementation 'com.instabug.library:instabug:10.13.0'
     implementation project(':xmsadapter')
+    implementation project(':places-core')
+    implementation project(':xmsadapter')
+    google project(':places-google')
+    huawei project(':places-huawei')
 }
+
+apply plugin: 'com.huawei.agconnect'

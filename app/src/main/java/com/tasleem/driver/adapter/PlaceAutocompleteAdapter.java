@@ -14,26 +14,28 @@ import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.libraries.places.api.Places;
 import com.tasleem.driver.R;
 import com.tasleem.driver.components.MyFontTextView;
 import com.tasleem.driver.models.singleton.CurrentTrip;
 import com.tasleem.driver.utils.AppLog;
 import com.tasleem.driver.utils.PreferenceHelper;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.FetchPlaceResponse;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import dev.supasintatiyanupanwong.libraries.android.kits.places.PlaceKit;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.model.AutocompletePrediction;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.model.Place;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.model.TypeFilter;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FetchPlaceRequest;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FetchPlaceResponse;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FindAutocompletePredictionsRequest;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FindAutocompletePredictionsResponse;
+import dev.supasintatiyanupanwong.libraries.android.kits.places.net.PlacesClient;
+import dev.supasintatiyanupanwong.libraries.android.kits.tasks.listeners.OnFailureListener;
+import dev.supasintatiyanupanwong.libraries.android.kits.tasks.listeners.OnSuccessListener;
 
 public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable {
     private final CharacterStyle styleBold = new StyleSpan(Typeface.BOLD);
@@ -44,9 +46,9 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
      * Current results returned by this adapter.
      */
     private final ArrayList<AutocompletePrediction> mResultList;
+    //TODO changed manually
     PlacesClient placesClient;
     private ViewHolder holder;
-    private RectangularBounds bounds;
     private String countryCode;
 
 
@@ -61,20 +63,14 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
             Places.initialize(context, PreferenceHelper.getInstance(context).getGoogleAutoCompleteKey());
         }
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        placesClient = Places.createClient(context);
+        //TODO changed manually
+        placesClient = PlaceKit.createClient(context);
         mResultList = new ArrayList<>();
         placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
     }
 
     public void setPlaceFilter(String countryCode) {
         this.countryCode = countryCode;
-    }
-
-    /**
-     * Sets the bounds for all subsequent queries.
-     */
-    public void setBounds(RectangularBounds bounds) {
-        this.bounds = bounds;
     }
 
     /**
@@ -112,8 +108,11 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
         }
 
         AutocompletePrediction item = getItem(position);
-        holder.tvPlaceName.setText(item.getPrimaryText(styleBold));
-        holder.tvPlaceAddress.setText(item.getSecondaryText(styleBold));
+
+        //TODO change manually - START
+        holder.tvPlaceName.setText(item.getPrimaryText());
+        holder.tvPlaceAddress.setText(item.getSecondaryText());
+        //TODO change manually - END
 
         return convertView;
     }
@@ -156,7 +155,8 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
                 // Override this method to display a readable result in the AutocompleteTextView
                 // when clicked.
                 if (resultValue instanceof AutocompletePrediction) {
-                    return ((AutocompletePrediction) resultValue).getFullText(null);
+                    //TODO changed manually - Changed from getFullText to getPrimaryText due to Huawei not support get full text
+                    return ((AutocompletePrediction) resultValue).getPrimaryText();
                 } else {
                     return super.convertResultToString(resultValue);
                 }
@@ -176,15 +176,21 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
 
     private void getFindAutocompletePredictionsRequest(CharSequence constraint) {
 
-        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                // Call either setLocationBias() OR setLocationRestriction().
-                .setLocationBias(bounds)
-                //.setLocationRestriction(bounds)
-                .setCountry(countryCode)
-                //.setTypeFilter(TypeFilter.GEOCODE)
-                .setSessionToken(CurrentTrip.getInstance().getAutocompleteSessionToken()).setQuery(constraint.toString()).build();
-
-        placesClient.findAutocompletePredictions(request).addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
+//        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
+//                // Call either setLocationBias() OR setLocationRestriction().
+//                .setLocationBias(bounds)
+//                //.setLocationRestriction(bounds)
+//                .setCountry(countryCode)
+//                //.setTypeFilter(TypeFilter.GEOCODE)
+//                .setSessionToken(CurrentTrip.getInstance().getAutocompleteSessionToken()).setQuery(constraint.toString()).build();
+        //TODO changed manually - START
+        final FindAutocompletePredictionsRequest newRequest =
+                new FindAutocompletePredictionsRequest.Builder()
+                        .setTypeFilter(TypeFilter.ESTABLISHMENT)
+                        .setQuery(constraint.toString())
+                        .setCountry(countryCode)
+                        .build();
+        placesClient.findAutocompletePredictions(newRequest).addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
             @Override
             public void onSuccess(FindAutocompletePredictionsResponse response) {
                 mResultList.clear();
@@ -197,11 +203,14 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
                 AppLog.handleException("AutoComplete", e);
             }
         });
+        //TODO changed manually - END
     }
 
     public void getFetchPlaceRequest(String placeId, OnSuccessListener<FetchPlaceResponse> responseOnSuccessListener) {
-        FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).setSessionToken(CurrentTrip.getInstance().getAutocompleteSessionToken()).build();
+        //TODO changed manually - START
+        FetchPlaceRequest request = new FetchPlaceRequest.Builder().setPlaceId(placeId).setPlaceFields(placeFields).build();
         placesClient.fetchPlace(request).addOnSuccessListener(responseOnSuccessListener);
+        //TODO changed manually - END
     }
 
     private class ViewHolder {

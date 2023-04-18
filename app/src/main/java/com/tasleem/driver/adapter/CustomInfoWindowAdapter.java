@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
+import org.xms.g.maps.ExtensionMap;
+import org.xms.g.maps.model.Marker;
 import com.tasleem.driver.R;
 
-public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+public class CustomInfoWindowAdapter implements ExtensionMap.InfoWindowAdapter {
 
     private final Activity context;
 

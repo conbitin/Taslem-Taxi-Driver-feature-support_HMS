@@ -1,2 +1,3 @@
 include ':app'
 include ':xmsadapter'
+include ':places-core', ':places-google', ':places-huawei', ':library'

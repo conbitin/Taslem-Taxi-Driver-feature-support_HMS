@@ -3,7 +3,7 @@
   "minSdkVersion": 21,
   "targetSdkVersion": 31,
   "pluginVersion": null,
-  "moduleLocation": "/home/phupv2/sources/github/Taslem-Taxi-Driver-feature-support_HMS/xmsadapter",
+  "moduleLocation": "/home/toinx/WORKSPACE/my/PROJECTS/Taslem-Taxi-Driver-feature-support_HMS/xmsadapter",
   "app": false,
   "kitNames": [
     "Account",
