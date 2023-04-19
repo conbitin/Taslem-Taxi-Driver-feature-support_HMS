@@ -1217,8 +1217,7 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
                 public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                     //TODO Changed manually - START
                     Place place = fetchPlaceResponse.getPlace();
-                    LatLng latlng =  new LatLng(place.getLatitude(), place.getLongitude());
-                    destinationLatLng = latlng;
+                    destinationLatLng = new LatLng(place.getLatitude(), place.getLongitude());
                     getDistanceMatrix(currentLatLng, destinationLatLng);
                     //TODO Changed manually - END
                     if (!GlobalEnvSetting.isHms()) {

@@ -34,12 +34,12 @@ import com.tasleem.driver.utils.NetworkHandler;
 import com.tasleem.driver.utils.PreferenceHelper;
 import com.tasleem.driver.utils.SocketHelper;
 import com.tasleem.driver.utils.Utils;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import org.xms.g.location.FusedLocationProviderClient;
+import org.xms.g.location.LocationCallback;
+import org.xms.g.location.LocationRequest;
+import org.xms.g.location.LocationResult;
+import org.xms.g.location.LocationServices;
+import org.xms.g.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,14 +57,14 @@ public class EberUpdateService extends Service {
     private static final Long INTERVAL = 5000L; // millisecond
     private static final Long FASTEST_INTERVAL = 4000L; // millisecond
     private static final Float DISPLACEMENT = 5f; // millisecond
-    private final LocationRequest locationRequest = LocationRequest.create().setInterval(INTERVAL).setFastestInterval(FASTEST_INTERVAL).setSmallestDisplacement(DISPLACEMENT).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    private final LocationRequest locationRequest = LocationRequest.create().setInterval(INTERVAL).setFastestInterval(FASTEST_INTERVAL).setSmallestDisplacement(DISPLACEMENT).setPriority(LocationRequest.getPRIORITY_HIGH_ACCURACY());
     private static final Long INTERVAL_WAITING_TIME_IN_TRIP = 10000L; // millisecond
     private static final Long FASTEST_INTERVAL_WAITING_TIME_IN_TRIP = 8000L; // millisecond
     private static final Long MAX_WAITING_TIME_IN_TRIP = 30000L; // millisecond
     private static final float MIN_MOVEMENT_DISTANCE = 20; // 30 meters
     private long endWaitingTime = 0;
     private final LocationRequest locationRequestForWaitingTimeInTrip =
-            LocationRequest.create().setMaxWaitTime(MAX_WAITING_TIME_IN_TRIP).setInterval(INTERVAL_WAITING_TIME_IN_TRIP).setFastestInterval(FASTEST_INTERVAL_WAITING_TIME_IN_TRIP).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            LocationRequest.create().setMaxWaitTime(MAX_WAITING_TIME_IN_TRIP).setInterval(INTERVAL_WAITING_TIME_IN_TRIP).setFastestInterval(FASTEST_INTERVAL_WAITING_TIME_IN_TRIP).setPriority(LocationRequest.getPRIORITY_HIGH_ACCURACY());
     public String TAG = EberUpdateService.class.getSimpleName();
     private PreferenceHelper preferenceHelper;
     private Location currentLocation;

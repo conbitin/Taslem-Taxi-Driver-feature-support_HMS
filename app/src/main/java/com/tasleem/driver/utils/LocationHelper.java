@@ -8,21 +8,21 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import org.xms.g.common.api.ApiException;
+import org.xms.g.common.api.CommonStatusCodes;
+import org.xms.g.common.api.ResolvableApiException;
+import org.xms.g.location.FusedLocationProviderClient;
+import org.xms.g.location.LocationAvailability;
+import org.xms.g.location.LocationCallback;
+import org.xms.g.location.LocationRequest;
+import org.xms.g.location.LocationResult;
+import org.xms.g.location.LocationServices;
+import org.xms.g.location.LocationSettingsRequest;
+import org.xms.g.location.LocationSettingsResponse;
+import org.xms.g.location.LocationSettingsStatusCodes;
+import org.xms.g.location.SettingsClient;
+import org.xms.g.tasks.OnSuccessListener;
+import org.xms.g.tasks.Task;
 
 /**
  * Created by elluminati on 20-06-2016.
@@ -31,6 +31,8 @@ public class LocationHelper {
 
     private static final long INTERVAL = 5000;// millisecond
     private static final long FASTEST_INTERVAL = 4000;// millisecond
+    private static final int RESOLUTION_REQUIRED = 6;
+    private static final int SETTINGS_CHANGE_UNAVAILABLE = 8502;
     private final Context context;
     private final FusedLocationProviderClient fusedLocationProviderClient;
     public LocationRequest locationRequest;
@@ -69,10 +71,10 @@ public class LocationHelper {
     }
 
     private void getLocationRequest() {
-        locationRequest = new LocationRequest();
+        locationRequest = LocationRequest.create();
         locationRequest.setInterval(INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setPriority(LocationRequest.getPRIORITY_HIGH_ACCURACY());
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
         locationSettingsRequest = builder.build();
         client = LocationServices.getSettingsClient(context);
@@ -104,16 +106,16 @@ public class LocationHelper {
     public void setLocationSettingRequest(final AppCompatActivity activity, final int requestCode, OnSuccessListener<LocationSettingsResponse> onSuccessListener, final NoGPSDeviceFoundListener noGPSDeviceFoundListener) {
         Task<LocationSettingsResponse> task = client.checkLocationSettings(locationSettingsRequest);
         task.addOnFailureListener(activity, e -> {
-            int statusCode = ((ApiException) e).getStatusCode();
+            int statusCode = (ApiException.dynamicCast(e)).getStatusCode();
             switch (statusCode) {
-                case CommonStatusCodes.RESOLUTION_REQUIRED:
+                case RESOLUTION_REQUIRED:
                     try {
-                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        ResolvableApiException resolvable = ResolvableApiException.dynamicCast(e);
                         resolvable.startResolutionForResult(activity, requestCode);
                     } catch (IntentSender.SendIntentException sendEx) {
                     }
                     break;
-                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                case SETTINGS_CHANGE_UNAVAILABLE:
                     if (noGPSDeviceFoundListener != null) {
                         noGPSDeviceFoundListener.noFound();
                     }
