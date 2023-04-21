@@ -1,8 +1,7 @@
 plugins {
-	id 'com.android.application'
+	id 'com.android.library'
 }
-apply from: '../../scripts/productFlavor.gradle'
-apply from: '../scripts/gen-dex.gradle'
+
 android {
     compileSdkVersion 31
     defaultConfig {
@@ -25,8 +24,7 @@ dependencies {
     compileOnly 'com.google.firebase:firebase-messaging:20.2.0'
     compileOnly 'com.google.android.gms:play-services-basement:17.1.0'
     compileOnly 'com.google.firebase:firebase-core:17.0.0'
-//Map
+    //Map
     compileOnly 'com.google.android.gms:play-services-maps:17.0.0'
     compileOnly 'com.google.android.gms:play-services-location:17.0.0'
-
 }

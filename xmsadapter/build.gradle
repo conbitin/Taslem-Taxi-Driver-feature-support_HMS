@@ -16,8 +16,7 @@ android {
 
     sourceSets {
         main {
-            java.srcDirs = ['src/main/java',
-                            'xmsaux/xapi/src/main/java']
+            java.srcDirs = ['src/main/java']
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }

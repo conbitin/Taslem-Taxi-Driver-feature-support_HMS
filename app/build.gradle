@@ -175,9 +175,10 @@ dependencies {
     implementation 'com.instabug.library:instabug:10.13.0'
     implementation project(':xmsadapter')
     implementation project(':places-core')
-    implementation project(':xmsadapter')
     google project(':places-google')
+    google project(':xg')
     huawei project(':places-huawei')
+    huawei project(':xh')
 }
 
 apply plugin: 'com.huawei.agconnect'
