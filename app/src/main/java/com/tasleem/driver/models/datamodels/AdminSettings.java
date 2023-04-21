@@ -159,7 +159,7 @@ public class AdminSettings {
     }
 
     public String getAndroidProviderAppVersionCode() {
-        if (GlobalEnvSetting.isHms()) {
+        if (GlobalEnvSetting.isHms() && harmonyosProviderAppVersionCode != null ) {
             return harmonyosProviderAppVersionCode;
         } else {
             return androidProviderAppVersionCode;

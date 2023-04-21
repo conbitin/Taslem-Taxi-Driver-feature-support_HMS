@@ -30,6 +30,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.maps.MapsInitializer;
 import com.tasleem.driver.adapter.CircularProgressViewAdapter;
 import com.tasleem.driver.adapter.DrawerAdapter;
@@ -139,6 +140,13 @@ public class MainDrawerActivity extends BaseAppCompatActivity implements Locatio
             loadFragmentsAccordingStatus();
         }*/
         locationHelper.onStart();
+        if (GlobalEnvSetting.isHms()) {
+            Log.i(TAG, "getAPIKeys - set key for HMS map");
+            String apiKey = Uri.encode(
+                    AGConnectServicesConfig.fromContext(getApplicationContext()).getString("client/api_key"));
+            MapsInitializer.initialize(getApplicationContext());
+            MapsInitializer.setApiKey(apiKey);
+        }
     }
 
     @Override
@@ -339,13 +347,6 @@ public class MainDrawerActivity extends BaseAppCompatActivity implements Locatio
                                 if (checkLocationPermission()) {
                                     loadFragmentsAccordingStatus();
                                 }
-                            }
-
-                            if (GlobalEnvSetting.isHms()) {
-                                Log.i(TAG, "getAPIKeys - set key for HMS map");
-                                MapsInitializer.initialize(getApplicationContext());
-                                //TODO Key must be get from BE like bellow commenented code
-                                MapsInitializer.setApiKey(preferenceHelper.getGoogleServerKey());
                             }
 
                         }).addOnFailureListener(e -> {
