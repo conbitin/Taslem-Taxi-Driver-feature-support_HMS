@@ -16,7 +16,6 @@
 #   public *;
 #}
 #Model
--keep class  com.tasleem.driver.models.** { *; }
 # HMS Core classes
 -ignorewarnings
 -keepattributes Exceptions

@@ -23,6 +23,16 @@ android {
         signingConfig signingConfigs.debug
     }
 
+    signingConfigs {
+        release {
+            storeFile file("xxx.xxxx")
+            storePassword "xxxxxxx"
+            keyAlias "xxxxxxx"
+            keyPassword "xxxxxxx"
+            v2SigningEnabled true
+        }
+    }
+
     if(project.hasProperty("project.properties")
             && new File(project.property("project.properties")).exists()) {
         Properties props = new Properties()
@@ -40,8 +50,13 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 
@@ -127,9 +142,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-base:17.1.0'
-    implementation 'com.huawei.hms:base:6.0.1.302'
+    implementation 'com.huawei.hms:base:6.6.0.300'
     implementation 'com.google.android.gms:play-services-basement:17.1.0'
-    implementation 'com.huawei.hms:maps:5.3.0.300'
+    implementation 'com.huawei.hms:maps:6.5.0.301'
     implementation 'com.huawei.hms:location:6.0.0.302'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.google.android.libraries.places:places:2.5.0'

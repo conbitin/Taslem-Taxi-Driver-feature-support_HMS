@@ -17,6 +17,7 @@
 package dev.supasintatiyanupanwong.libraries.android.kits.places.internal.huawei;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -41,14 +42,21 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 @SuppressWarnings("unused")
 public final class HuaweiPlacesFactory implements PlacesFactory {
 
-    private final @NonNull String mApiKey;
+    private static final String PREF_NAME = "TaxiAnyTimeAnyWhereProvider";
+    private final String GOOGLE_SERVER_KEY = "google_server_key";
+    private String mApiKey;
 
-    private HuaweiPlacesFactory(@NonNull String apiKey) {
+    private HuaweiPlacesFactory(String apiKey) {
         mApiKey = apiKey;
     }
 
     @Override
     public @NonNull PlacesClient createClient(@NonNull Context context) {
+        if (mApiKey == null) {
+            SharedPreferences app_preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+            mApiKey = app_preferences.getString(GOOGLE_SERVER_KEY, "");
+        }
+
         return new HuaweiPlacesClient(context, mApiKey);
     }
 
@@ -71,10 +79,10 @@ public final class HuaweiPlacesFactory implements PlacesFactory {
         } catch (Exception ex) {
             apiKey = null;
         }
-
-        if (TextUtils.isEmpty(apiKey)) {
-            throw new NullPointerException("API key is not found in agconnect-services.json");
-        }
+;
+//        if (TextUtils.isEmpty(apiKey)) {
+//            throw new NullPointerException("API key is not found in agconnect-services.json");
+//        }
 
         return new HuaweiPlacesFactory(apiKey);
     }

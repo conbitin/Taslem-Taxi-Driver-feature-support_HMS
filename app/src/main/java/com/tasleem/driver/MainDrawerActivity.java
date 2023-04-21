@@ -30,6 +30,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.huawei.hms.maps.MapsInitializer;
 import com.tasleem.driver.adapter.CircularProgressViewAdapter;
 import com.tasleem.driver.adapter.DrawerAdapter;
 import com.tasleem.driver.components.CustomCircularProgressView;
@@ -67,6 +68,7 @@ import com.stripe.android.Stripe;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xms.g.utils.GlobalEnvSetting;
 
 import java.util.List;
 
@@ -338,6 +340,14 @@ public class MainDrawerActivity extends BaseAppCompatActivity implements Locatio
                                     loadFragmentsAccordingStatus();
                                 }
                             }
+
+                            if (GlobalEnvSetting.isHms()) {
+                                Log.i(TAG, "getAPIKeys - set key for HMS map");
+                                MapsInitializer.initialize(getApplicationContext());
+                                //TODO Key must be get from BE like bellow commenented code
+                                MapsInitializer.setApiKey(preferenceHelper.getGoogleServerKey());
+                            }
+
                         }).addOnFailureListener(e -> {
                             AppLog.handleThrowable(SplashScreenActivity.class.getSimpleName(), e);
                             if (checkVersionCode(adminSettings.getAndroidProviderAppVersionCode())) {
