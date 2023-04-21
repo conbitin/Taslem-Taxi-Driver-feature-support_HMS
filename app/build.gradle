@@ -65,7 +65,6 @@ android {
         huawei {
             flavorDimensions "vendor"
             buildConfigField "String", "BASE_URL", '"https://staging.tasleemtaxi.com/"'
-            applicationIdSuffix '.huawei'
         }
 
         developer {
