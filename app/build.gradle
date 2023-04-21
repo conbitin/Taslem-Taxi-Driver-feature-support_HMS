@@ -23,16 +23,6 @@ android {
         signingConfig signingConfigs.debug
     }
 
-    signingConfigs {
-        release {
-            storeFile file("xxx.xxxx")
-            storePassword "xxxxxxx"
-            keyAlias "xxxxxxx"
-            keyPassword "xxxxxxx"
-            v2SigningEnabled true
-        }
-    }
-
     if(project.hasProperty("project.properties")
             && new File(project.property("project.properties")).exists()) {
         Properties props = new Properties()
@@ -52,44 +42,37 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-
-        debug {
-            signingConfig signingConfigs.release
         }
     }
 
-    flavorDimensions "default"
+    flavorDimensions "default", "vendor"
     productFlavors {
         production {
-            flavorDimensions "default"
+            dimension "default"
             buildConfigField "String", "BASE_URL", '"https://tasleemtaxi.com/"'
         }
 
         staging {
-            flavorDimensions "default"
-            buildConfigField "String", "BASE_URL", '"https://staging.tasleemtaxi.com/"'
-        }
-
-        google {
-            flavorDimensions "vendor"
-            buildConfigField "String", "BASE_URL", '"https://staging.tasleemtaxi.com/"'
-        }
-
-        huawei {
-            flavorDimensions "vendor"
+            dimension "default"
             buildConfigField "String", "BASE_URL", '"https://staging.tasleemtaxi.com/"'
         }
 
         developer {
-            flavorDimensions "default"
+            dimension "default"
             buildConfigField "String", "BASE_URL", '"https://tasleemtaxi.com/"'
         }
 
         local {
-            flavorDimensions "default"
+            dimension "default"
             buildConfigField "String", "BASE_URL", '"https://tasleemtaxi.com/"'
+        }
+
+        google {
+            dimension "vendor"
+        }
+
+        huawei {
+            dimension "vendor"
         }
     }
     bundle {
