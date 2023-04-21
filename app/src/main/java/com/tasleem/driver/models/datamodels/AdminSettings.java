@@ -1,7 +1,11 @@
 package com.tasleem.driver.models.datamodels;
 
+import androidx.annotation.Nullable;
+
 import com.tasleem.driver.utils.Const;
 import com.google.gson.annotations.SerializedName;
+
+import org.xms.g.utils.GlobalEnvSetting;
 
 public class AdminSettings {
 
@@ -15,8 +19,13 @@ public class AdminSettings {
     @SerializedName("admin_phone")
     private String adminPhone;
 
+    @Nullable
     @SerializedName("android_provider_app_force_update")
     private boolean androidProviderAppForceUpdate;
+
+    @Nullable
+    @SerializedName("harmonyos_provider_app_force_update")
+    private boolean harmonyosProviderAppForceUpdate;
 
     @SerializedName("stripe_publishable_key")
     private String stripePublishableKey;
@@ -57,9 +66,13 @@ public class AdminSettings {
     @SerializedName("scheduledRequestPreStartMinute")
     private int scheduledRequestPreStartMinute;
 
+    @Nullable
     @SerializedName("android_provider_app_version_code")
     private String androidProviderAppVersionCode;
 
+    @Nullable
+    @SerializedName("harmonyos_provider_app_version_code")
+    private String harmonyosProviderAppVersionCode;
 
     @SerializedName("twilio_call_masking")
     private boolean twilioCallMasking;
@@ -98,7 +111,11 @@ public class AdminSettings {
     }
 
     public boolean isAndroidProviderAppForceUpdate() {
-        return androidProviderAppForceUpdate;
+        if (GlobalEnvSetting.isHms()) {
+            return harmonyosProviderAppForceUpdate;
+        } else {
+            return androidProviderAppForceUpdate;
+        }
     }
 
     public String getStripePublishableKey() {
@@ -142,7 +159,11 @@ public class AdminSettings {
     }
 
     public String getAndroidProviderAppVersionCode() {
-        return androidProviderAppVersionCode;
+        if (GlobalEnvSetting.isHms()) {
+            return harmonyosProviderAppVersionCode;
+        } else {
+            return androidProviderAppVersionCode;
+        }
     }
 
     public String getImageBaseUrl() {
@@ -187,6 +208,15 @@ public class AdminSettings {
 
     public void setMaximumPhoneNumberLength(int maximumPhoneNumberLength) {
         this.maximumPhoneNumberLength = maximumPhoneNumberLength;
+    }
+
+    public boolean isHarmonyosProviderAppForceUpdate() {
+        return harmonyosProviderAppForceUpdate;
+    }
+
+    @Nullable
+    public String getHarmonyosProviderAppVersionCode() {
+        return harmonyosProviderAppVersionCode;
     }
 
     public String getReferralTextEn() {
