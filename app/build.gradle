@@ -137,7 +137,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.facebook.android:facebook-android-sdk:13.1.0'
     implementation 'com.stripe:stripe-android:19.3.0'
-    implementation project(path: ':library')
+    implementation project(path: ':lib-places-utils')
     testImplementation 'junit:junit:4.13.2'
 
     implementation platform('com.google.firebase:firebase-bom:29.2.0')
@@ -173,9 +173,7 @@ dependencies {
     implementation project(':xmsadapter')
     implementation project(':places-core')
     google project(':places-google')
-    google project(':xg')
     huawei project(':places-huawei')
-    huawei project(':xh')
 }
 
 apply plugin: 'com.huawei.agconnect'

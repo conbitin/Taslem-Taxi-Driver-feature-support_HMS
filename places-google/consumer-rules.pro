@@ -14,6 +14,6 @@
 # limitations under the License.
 #
 
--keep class dev.supasintatiyanupanwong.libraries.android.kits.places.internal.google.GooglePlacesFactory {
+-keep class com.tasleem.driver.apigoogle.GooglePlacesFactory {
     public static *** buildIfSupported(android.content.Context);
 }

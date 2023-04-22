@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
--keep class dev.supasintatiyanupanwong.libraries.android.kits.places.internal.huawei.HuaweiPlacesFactory {
+-keep class com.tasleem.driver.apihuawei.HuaweiPlacesFactory {
     public static *** buildIfSupported(android.content.Context);
 }
 

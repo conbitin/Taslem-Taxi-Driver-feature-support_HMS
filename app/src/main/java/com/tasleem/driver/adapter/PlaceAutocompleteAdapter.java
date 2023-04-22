@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import com.google.android.libraries.places.api.Places;
 import com.tasleem.driver.R;
 import com.tasleem.driver.components.MyFontTextView;
-import com.tasleem.driver.models.singleton.CurrentTrip;
 import com.tasleem.driver.utils.AppLog;
 import com.tasleem.driver.utils.PreferenceHelper;
 
@@ -27,15 +26,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import dev.supasintatiyanupanwong.libraries.android.kits.places.PlaceKit;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.model.AutocompletePrediction;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.model.Place;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.model.TypeFilter;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FetchPlaceRequest;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FetchPlaceResponse;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FindAutocompletePredictionsRequest;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.net.FindAutocompletePredictionsResponse;
-import dev.supasintatiyanupanwong.libraries.android.kits.places.net.PlacesClient;
+import com.tasleem.driver.common.places.PlaceKit;
+import com.tasleem.driver.common.places.model.AutocompletePrediction;
+import com.tasleem.driver.common.places.model.Place;
+import com.tasleem.driver.common.places.model.TypeFilter;
+import com.tasleem.driver.common.places.net.FetchPlaceRequest;
+import com.tasleem.driver.common.places.net.FetchPlaceResponse;
+import com.tasleem.driver.common.places.net.FindAutocompletePredictionsRequest;
+import com.tasleem.driver.common.places.net.FindAutocompletePredictionsResponse;
+import com.tasleem.driver.common.places.net.PlacesClient;
 import dev.supasintatiyanupanwong.libraries.android.kits.tasks.listeners.OnFailureListener;
 import dev.supasintatiyanupanwong.libraries.android.kits.tasks.listeners.OnSuccessListener;
 

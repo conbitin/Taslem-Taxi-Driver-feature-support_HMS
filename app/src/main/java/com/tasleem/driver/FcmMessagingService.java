@@ -27,7 +27,7 @@ import com.tasleem.driver.utils.AppLog;
 import com.tasleem.driver.utils.Const;
 import com.tasleem.driver.utils.PreferenceHelper;
 import com.tasleem.driver.utils.Utils;
-import org.xms.f.messaging.ExtensionMessagingService;
+import com.tasleem.driver.common.messaging.ExtensionMessagingService;
 import org.xms.f.messaging.RemoteMessage;
 
 import org.jetbrains.annotations.NotNull;

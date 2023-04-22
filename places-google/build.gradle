@@ -30,9 +30,15 @@ android {
 dependencies {
     api project(':places-core')
 
+    compileOnly project(':xmsadapter')
     implementation 'dev.supasintatiyanupanwong.libraries.android.kits.base:base-google:1.0.0'
 
     implementation 'com.google.android.libraries.places:places:2.5.0'
+    compileOnly 'com.google.android.gms:play-services-base:17.1.0'
+    compileOnly 'com.google.android.gms:play-services-gcm:17.0.0'
+    compileOnly 'com.google.firebase:firebase-messaging:20.2.0'
+    compileOnly 'com.google.android.gms:play-services-basement:17.1.0'
+    compileOnly 'com.google.firebase:firebase-core:17.0.0'
 }
 
 apply from: 'publish.gradle'
