@@ -62,6 +62,7 @@ import org.xms.f.auth.ExtensionUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xms.g.utils.GlobalEnvSetting;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -668,7 +669,13 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
                         if (response.body().getSuccess()) {
                             Log.i("AAA", "generateFirebaseAccessToken");
                             Utils.hideCustomProgressDialog();
-                            preferenceHelper.putFirebaseUserToken(response.body().getFirebaseToken());
+                            String fireBaseToken;
+                            if (GlobalEnvSetting.isHms()) {
+                                fireBaseToken = response.body().getHmsFirebaseToken();
+                            } else {
+                                fireBaseToken = response.body().getFirebaseToken();
+                            }
+                            preferenceHelper.putFirebaseUserToken(fireBaseToken);
                             signInAnonymously();
                         } else {
                             Utils.hideCustomProgressDialog();

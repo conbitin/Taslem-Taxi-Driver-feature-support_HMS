@@ -13,6 +13,9 @@ public class GenerateFirebaseTokenResponse {
     private String firebaseToken;
     @SerializedName("error_code")
     private int errorCode;
+    @SerializedName("hms_firebase_token")
+    @Expose
+    private String hmsFirebaseToken;
 
     public Boolean getSuccess() {
         return success;
@@ -36,5 +39,9 @@ public class GenerateFirebaseTokenResponse {
 
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public String getHmsFirebaseToken() {
+        return hmsFirebaseToken;
     }
 }
