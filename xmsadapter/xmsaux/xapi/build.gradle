@@ -18,6 +18,6 @@ dependencies {
     compileOnly project(':xmsadapter')
     compileOnly 'com.google.android.gms:play-services-basement:17.1.0'
     compileOnly 'com.google.android.gms:play-services-base:17.1.0'
-    compileOnly 'com.huawei.hms:base:4.0.1.300'
+    compileOnly 'com.huawei.hms:base:6.0.1.302'
 }
 

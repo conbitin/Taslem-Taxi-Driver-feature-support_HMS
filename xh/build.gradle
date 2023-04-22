@@ -16,7 +16,7 @@ android {
 
 dependencies {
     compileOnly project(':xmsadapter')
-    compileOnly 'androidx.appcompat:appcompat:1.0.0'
+    compileOnly 'androidx.appcompat:appcompat:1.4.1'
     compileOnly 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //Push
     compileOnly 'com.huawei.hms:hianalytics:6.1.0.300'
