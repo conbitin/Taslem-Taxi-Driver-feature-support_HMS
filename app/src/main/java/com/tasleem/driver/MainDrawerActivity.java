@@ -30,6 +30,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.huawei.agconnect.AGConnectOptionsBuilder;
 import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.maps.MapsInitializer;
 import com.tasleem.driver.adapter.CircularProgressViewAdapter;
@@ -141,9 +142,9 @@ public class MainDrawerActivity extends BaseAppCompatActivity implements Locatio
         }*/
         locationHelper.onStart();
         if (GlobalEnvSetting.isHms()) {
-            Log.i(TAG, "getAPIKeys - set key for HMS map");
-            String apiKey = Uri.encode(
-                    AGConnectServicesConfig.fromContext(getApplicationContext()).getString("client/api_key"));
+            String apiKey = new AGConnectOptionsBuilder().build(MainDrawerActivity.this).getString("client/api_key");
+//            Log.i(TAG, "getAPIKeys - set key for HMS map apiKey " + apiKey);
+            Log.i(TAG, "getAPIKeys - set key for HMS map apiKey ");
             MapsInitializer.initialize(getApplicationContext());
             MapsInitializer.setApiKey(apiKey);
         }

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -74,12 +75,10 @@ public final class HuaweiPlacesFactory implements PlacesFactory {
 
         String apiKey;
         try {
-            apiKey = Uri.encode(
-                    AGConnectServicesConfig.fromContext(context).getString("client/api_key"));
+            apiKey = AGConnectServicesConfig.fromContext(context).getString("client/api_key");
         } catch (Exception ex) {
             apiKey = null;
         }
-;
 //        if (TextUtils.isEmpty(apiKey)) {
 //            throw new NullPointerException("API key is not found in agconnect-services.json");
 //        }
