@@ -25,6 +25,10 @@
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
 
+#XMS Adapter
+-keep class org.xms.f.**{*;}
+-keep class org.xms.g.**{*;}
+
 # HMS Remote Config
 -keep class com.huawei.agconnect.remoteconfig.*{*;}
 -keepclassmembers class **{
