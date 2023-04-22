@@ -103,6 +103,12 @@ android {
                 srcDirs 'src/staging/res'
             }
         }
+
+        huawei {
+            res {
+                srcDirs 'src/huawei/res'
+            }
+        }
     }
 }
 

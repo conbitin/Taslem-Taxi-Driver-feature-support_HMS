@@ -1,0 +1,4 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="map_fragment_center_button_margin_bottom">65dp</dimen>
+</resources>

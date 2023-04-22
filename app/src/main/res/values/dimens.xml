@@ -51,6 +51,7 @@
     <dimen name="top_sheet_modal_elevation">16dp</dimen>
     <dimen name="top_sheet_modal_peek_height">300dp</dimen>
     <dimen name="bottom_vehicle_sheet_pick_height">65dp</dimen>
+    <dimen name="map_fragment_center_button_margin_bottom">85dp</dimen>
 
     <dimen name="pv_pin_view_item_size">48dp</dimen>
     <dimen name="pv_pin_view_item_radius">5dp</dimen>
