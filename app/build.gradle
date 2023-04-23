@@ -16,7 +16,6 @@ android {
         resValue "string", "FACEBOOK_APP_ID", "1234"
         resValue "string", "FB_LOGIN_PROTOCOL_SCHEME", "fb1234"
         resValue "string", "GOOGLE_ANDROID_API_KEY", "AIzaSyDO819Q2wWjpt8QTSETp263uGjAQIY2MqQ"
-        resValue "string", "HUAWEI_ANDROID_API_KEY", "NEED_TO_REPLACE_HUWEI_API_KEY"
         firebaseCrashlytics {
             mappingFileUploadEnabled false
         }
