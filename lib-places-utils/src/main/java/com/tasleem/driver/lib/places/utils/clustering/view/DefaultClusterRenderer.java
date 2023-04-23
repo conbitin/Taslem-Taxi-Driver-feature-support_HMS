@@ -429,7 +429,6 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
                         .include(new LatLng(0, 0))
                         .build();
             }
-            // TODO: Add some padding, so that markers can animate in from off-screen.
 
             // Find all of the existing clusters that are on-screen. These are candidates for
             // markers to animate from.
@@ -487,7 +486,6 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
             for (final MarkerWithPosition marker : markersToRemove) {
                 boolean onScreen = visibleBounds.contains(marker.position);
                 // Don't animate when zooming out more than 3 zoom levels.
-                // TODO: drop animation based on speed of device & number of markers to animate.
                 if (!zoomingIn && zoomDelta > -3 && onScreen && mAnimate) {
                     final Point point = mSphericalMercatorProjection.toPoint(marker.position);
                     final Point closest = findClosestCluster(newClustersOnScreen, point);
@@ -688,7 +686,6 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
                 } else {
                     // Sometimes the idle queue may not be called - schedule up some work regardless
                     // of whether the UI thread is busy or not.
-                    // TODO: try to remove this.
                     sendEmptyMessageDelayed(BLANK, 10);
                 }
             } finally {
@@ -742,7 +739,6 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
             while (isBusy()) {
                 // Sometimes the idle queue may not be called - schedule up some work regardless
                 // of whether the UI thread is busy or not.
-                // TODO: try to remove this.
                 sendEmptyMessage(BLANK);
                 lock.lock();
                 try {
@@ -882,7 +878,6 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
      * @param markerOptions markerOptions representing the provided cluster
      */
     protected void onBeforeClusterRendered(@NonNull Cluster<T> cluster, @NonNull MarkerOptions markerOptions) {
-        // TODO: consider adding anchor(.5, .5) (Individual markers will overlap more often)
         markerOptions.icon(getDescriptorForCluster(cluster));
     }
 
@@ -935,7 +930,6 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
      * @param marker cached marker that contains a potentially previous state of the cluster
      */
     protected void onClusterUpdated(@NonNull Cluster<T> cluster, @NonNull Marker marker) {
-        // TODO: consider adding anchor(.5, .5) (Individual markers will overlap more often)
         marker.setIcon(getDescriptorForCluster(cluster));
     }
 
@@ -1088,10 +1082,6 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
 
     private static final TimeInterpolator ANIMATION_INTERP = new DecelerateInterpolator();
 
-    /**
-     * Animates a markerWithPosition from one position to another. TODO: improve performance for
-     * slow devices (e.g. Nexus S).
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private class AnimationTask extends AnimatorListenerAdapter implements ValueAnimator.AnimatorUpdateListener {
         private final MarkerWithPosition markerWithPosition;

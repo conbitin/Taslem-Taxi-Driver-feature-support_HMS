@@ -313,16 +313,6 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
     private void setPlaceFilter(String countryCode) {
         if (placeAutocompleteAdapter != null) {
             placeAutocompleteAdapter.setPlaceFilter(countryCode);
-            //TODO Changed manually - removed set bounds due to not support from Huawei
-//            drawerActivity.locationHelper.getLastLocation(location -> {
-//                if (location != null) {
-//                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                    RectangularBounds latLngBounds = RectangularBounds.newInstance(latLng, latLng);
-//                    placeAutocompleteAdapter.setBounds(latLngBounds);
-//                } else {
-//                    Utils.showToast(drawerActivity.getResources().getString(R.string.text_location_not_found), drawerActivity);
-//                }
-//            });
 
         }
     }
@@ -989,8 +979,6 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
         }
     }
 
-    //TODO changed manually - HMS converted code LatLng class is difference with
-    // place-core module LatLng so need to convert to correct data type here
     private List<com.huawei.hms.maps.model.LatLng> fromListLatLngToHuaweiLatLng(List<LatLng> lstLatLng) {
         List<com.huawei.hms.maps.model.LatLng> result = new ArrayList<>();
         for (int i = 0; i < lstLatLng.size(); i++) {
@@ -1008,12 +996,10 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
 
         float[] startPoints = {0.2f, 1f};
 
-        //TODO changed manually - START
         Gradient gradient = new Gradient(colors, startPoints);
 
         heatmapTileProvider = new HeatmapTileProvider.Builder().data(fromListLatLngToHuaweiLatLng(heatMapLocationList)).gradient(gradient).build();
         tileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(heatmapTileProvider));
-        //TODO changed manually - END
         isHeatMapLoaded = true;
     }
 
@@ -1214,11 +1200,9 @@ public class MapFragment extends BaseFragments implements OnMapReadyCallback, Ma
             placeAutocompleteAdapter.getFetchPlaceRequest(placeId, new OnSuccessListener<FetchPlaceResponse>() {
                 @Override
                 public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
-                    //TODO Changed manually - START
                     Place place = fetchPlaceResponse.getPlace();
                     destinationLatLng = new LatLng(place.getLatitude(), place.getLongitude());
                     getDistanceMatrix(currentLatLng, destinationLatLng);
-                    //TODO Changed manually - END
                     if (!GlobalEnvSetting.isHms()) {
                         CurrentTrip.getInstance().setAutocompleteSessionToken(AutocompleteSessionToken.newInstance());
                     }

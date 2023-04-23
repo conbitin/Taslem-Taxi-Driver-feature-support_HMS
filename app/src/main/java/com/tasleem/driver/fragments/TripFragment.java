@@ -2463,8 +2463,6 @@ public class TripFragment extends BaseFragments implements OnMapReadyCallback, M
         }
     }
 
-    //TODO changed manually - HMS converted code LatLng class is difference with
-    // library module LatLng so need to convert to correct data type here
     private List<LatLng> fromListLatLngToHuaweiLatLng(List<com.huawei.hms.maps.model.LatLng> lstLatLng) {
         List<LatLng> result = new ArrayList<>();
         for (int i = 0; i < lstLatLng.size(); i++) {

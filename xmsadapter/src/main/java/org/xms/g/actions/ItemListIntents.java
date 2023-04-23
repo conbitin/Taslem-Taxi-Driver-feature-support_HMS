@@ -127,7 +127,7 @@ public class ItemListIntents extends org.xms.g.utils.XObject {
     }
     
     /**
-     * org.xms.g.actions.ItemListIntents.getEXTRA_LIST_NAME() Intent extra specifying an optional name or title as a string describing what the list contains (e.g. "shopping" or "todo").<br/>
+     * org.xms.g.actions.ItemListIntents.getEXTRA_LIST_NAME() Intent extra specifying an optional name or title as a string describing what the list contains (e.g. "shopping" or "to-do").<br/>
      * Support running environments including both HMS and GMS which are chosen by users.<br/>
      * Below are the references of HMS apis and GMS apis respectively:<br/>
      * com.google.android.gms.actions.ItemListIntents.EXTRA_LIST_NAME: <a href="https://developers.google.com/android/reference/com/google/android/gms/actions/ItemListIntents?hl=en#public-static-final-string-extra_list_name">https://developers.google.com/android/reference/com/google/android/gms/actions/ItemListIntents?hl=en#public-static-final-string-extra_list_name</a><br/>

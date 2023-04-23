@@ -47,7 +47,6 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
      * Current results returned by this adapter.
      */
     private final ArrayList<AutocompletePrediction> mResultList;
-    //TODO changed manually
     PlacesClient placesClient;
     private ViewHolder holder;
     private String countryCode;
@@ -64,7 +63,6 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
             Places.initialize(context, PreferenceHelper.getInstance(context).getGoogleAutoCompleteKey());
         }
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //TODO changed manually
         placesClient = PlaceKit.createClient(context);
         mResultList = new ArrayList<>();
         placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
@@ -110,10 +108,8 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
 
         AutocompletePrediction item = getItem(position);
 
-        //TODO change manually - START
         holder.tvPlaceName.setText(item.getPrimaryText());
         holder.tvPlaceAddress.setText(item.getSecondaryText());
-        //TODO change manually - END
 
         return convertView;
     }
@@ -156,7 +152,6 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
                 // Override this method to display a readable result in the AutocompleteTextView
                 // when clicked.
                 if (resultValue instanceof AutocompletePrediction) {
-                    //TODO changed manually - Changed from getFullText to getPrimaryText due to Huawei not support get full text
                     return ((AutocompletePrediction) resultValue).getPrimaryText();
                 } else {
                     return super.convertResultToString(resultValue);
@@ -176,16 +171,6 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
     }
 
     private void getFindAutocompletePredictionsRequest(CharSequence constraint) {
-
-        //TODO MUST CHANGE TO USE GOOGLE API
-//        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-//                // Call either setLocationBias() OR setLocationRestriction().
-//                .setLocationBias(bounds)
-//                //.setLocationRestriction(bounds)
-//                .setCountry(countryCode)
-//                //.setTypeFilter(TypeFilter.GEOCODE)
-//                .setSessionToken(CurrentTrip.getInstance().getAutocompleteSessionToken()).setQuery(constraint.toString()).build();
-        //TODO changed manually - START
         final FindAutocompletePredictionsRequest newRequest =
                 new FindAutocompletePredictionsRequest.Builder()
                         .setTypeFilter(TypeFilter.ESTABLISHMENT)
@@ -205,14 +190,11 @@ public class PlaceAutocompleteAdapter extends BaseAdapter implements Filterable 
                 AppLog.handleException("AutoComplete", e);
             }
         });
-        //TODO changed manually - END
     }
 
     public void getFetchPlaceRequest(String placeId, OnSuccessListener<FetchPlaceResponse> responseOnSuccessListener) {
-        //TODO changed manually - START
         FetchPlaceRequest request = new FetchPlaceRequest.Builder().setPlaceId(placeId).setPlaceFields(placeFields).build();
         placesClient.fetchPlace(request).addOnSuccessListener(responseOnSuccessListener);
-        //TODO changed manually - END
     }
 
     private class ViewHolder {

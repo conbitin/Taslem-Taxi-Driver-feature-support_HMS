@@ -144,7 +144,6 @@ public class GeoJsonRenderer extends Renderer implements Observer {
             boolean featureIsOnMap = getAllFeatures().get(feature) != FEATURE_NOT_ON_MAP;
             if (featureIsOnMap && feature.hasGeometry()) {
                 // Checks if the feature has been added to the map and its geometry is not null
-                // TODO: change this so that we don't add and remove
                 redrawFeatureToMap(feature);
             } else if (featureIsOnMap && !feature.hasGeometry()) {
                 // Checks if feature is on map and geometry is null

@@ -39,7 +39,6 @@ import java.util.Iterator;
 /**
  * Tile provider that creates heatmap tiles.
  */
-//TODO changed manually - this class changed super class to be fit with HMS auto generated classes
 public class HeatmapTileProvider implements TileProvider {
 
     /**

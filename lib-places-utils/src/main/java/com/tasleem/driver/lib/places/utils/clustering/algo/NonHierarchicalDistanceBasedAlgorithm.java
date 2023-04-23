@@ -159,7 +159,6 @@ public class NonHierarchicalDistanceBasedAlgorithm<T extends ClusterItem> extend
      */
     @Override
     public boolean updateItem(T item) {
-        // TODO - Can this be optimized to update the item in-place if the location hasn't changed?
         boolean result;
         synchronized (mQuadTree) {
             result = removeItem(item);
@@ -253,7 +252,6 @@ public class NonHierarchicalDistanceBasedAlgorithm<T extends ClusterItem> extend
     }
 
     private Bounds createBoundsFromSpan(Point p, double span) {
-        // TODO: Use a span that takes into account the visual size of the marker, not just its
         // LatLng.
         double halfSpan = span / 2;
         return new Bounds(

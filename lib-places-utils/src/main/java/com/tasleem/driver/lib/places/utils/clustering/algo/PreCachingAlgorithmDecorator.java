@@ -35,7 +35,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class PreCachingAlgorithmDecorator<T extends ClusterItem> extends AbstractAlgorithm<T> {
     private final Algorithm<T> mAlgorithm;
 
-    // TODO: evaluate maxSize parameter for LruCache.
     private final LruCache<Integer, Set<? extends Cluster<T>>> mCache = new LruCache<Integer, Set<? extends Cluster<T>>>(5);
     private final ReadWriteLock mCacheLock = new ReentrantReadWriteLock();
     private final Executor mExecutor = Executors.newCachedThreadPool();
@@ -103,7 +102,6 @@ public class PreCachingAlgorithmDecorator<T extends ClusterItem> extends Abstrac
     public Set<? extends Cluster<T>> getClusters(float zoom) {
         int discreteZoom = (int) zoom;
         Set<? extends Cluster<T>> results = getClustersInternal(discreteZoom);
-        // TODO: Check if requests are already in-flight.
         if (mCache.get(discreteZoom + 1) == null) {
             mExecutor.execute(new PrecacheRunnable(discreteZoom + 1));
         }
